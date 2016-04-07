@@ -29,7 +29,7 @@ namespace MoochKick
 
             var developerAccessProduct = new Product
             {
-                SubscriptionKey = "",
+                SubscriptionKey = "",               //Key gets pasted here.
                 RateLimit = new RateLimit
                 {
                     RequestCount = 10,
@@ -49,16 +49,22 @@ namespace MoochKick
 
             using(var session = client.StartSession())
             {
-                var query = new GetMatches()
-                  .InGameModes(activeGameModes)
-                  .ForPlayer("Sn1p3r C");
+                var query = new GetMatches()                       
+                .InGameModes(activeGameModes)
+                //.InGameMode(Enumeration.GameMode.Arena)  
+                .ForPlayer("Sn1p3r C");
 
-                var matchSet = await session.Query(query);
+                var matchSet = await session.Query(query);          //Did you paste your key in here?  Need to better handle exceptions.
+
+                Console.WriteLine(matchSet.ResultCount);
 
                 foreach(var result in matchSet.Results)
                 {
-                    Console.WriteLine("MatchID: {0} completed on {1}", result.Id.MatchId, result.MatchCompletedDate);
-                    //Console.WriteLine(result.MatchCompletedDate);
+                    TimeSpan difference = DateTime.Now - result.MatchCompletedDate.ISO8601Date;       //TimeSpan difference = [Timespan]GetElapsedDays(DateTime date);
+
+                    Console.WriteLine("Match {0} completed {1} days ago", result.Id.MatchId, difference.Days);
+
+                    
                 }
             }
 
