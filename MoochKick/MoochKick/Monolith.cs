@@ -20,11 +20,13 @@ namespace MoochKick
         {
             Console.WriteLine("Enter Spartan Company Name: ");
             string spartanCompanyName = Console.ReadLine();
-            MakeRequest(spartanCompanyName);
+            Console.WriteLine("Paste developer key:");
+            string devKey = Console.ReadLine();
+            MakeRequest(spartanCompanyName, devKey);
             Console.ReadLine();
         }       
 
-        static async void MakeRequest(string spartanCompanyName)
+        static async void MakeRequest(string spartanCompanyName, string devKey)
         {
             //string spartanCompanyName;
             const int minGamesToPlay = 1;
@@ -52,7 +54,7 @@ namespace MoochKick
             //setup product
             var developerAccessProduct = new Product
             {
-                SubscriptionKey = "bddabd5d05f54eb0993eddfdda59b8ac",               //Key gets pasted here.
+                SubscriptionKey = devKey,               //Key taken from command line
                 RateLimit = new RateLimit
                 {
                     RequestCount = 10,
