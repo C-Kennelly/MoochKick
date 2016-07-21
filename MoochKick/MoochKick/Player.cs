@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace MoochKick
 {
+    /// <summary>
+    /// Represents a Halo 5 player.
+    /// </summary>
     class Player
     {
         public string gamertag { get; set; }
