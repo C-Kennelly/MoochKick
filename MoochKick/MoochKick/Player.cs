@@ -13,7 +13,6 @@ namespace MoochKick
     {
         public string gamertag { get; set; }
         public DateTime lastActiveDate { get; set; }
-        public bool malefemale { get; set; }
 
         //Constructor
         public Player(string username)

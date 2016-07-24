@@ -37,19 +37,9 @@ namespace MoochKick
                 activeGameModes.Add(Enumeration.GameMode.Warzone);
 
             //TODO: spartan company I/O needs to be in main. how to get string working outside MakeRequest? 
-            
 
-            List<string> gamertagList = Quartermaster.GetGamertagsForCompany(spartanCompanyName);
+            SpartanCompany spartanCompany = new SpartanCompany(spartanCompanyName);
             List<Player> playersToRemove = new List<Player>();
-
-            List<Player> players = new List<Player>();
-
-            //Turn list of gametags in Player objects
-            foreach(string gt in gamertagList)
-            {
-                players.Add(new Player(gt));
-            }
-
 
             //setup product
             var developerAccessProduct = new Product
@@ -79,7 +69,7 @@ namespace MoochKick
                 and reporting inactivity if it's out of the the range defined at the top
                 top of the method.
                 */
-                foreach(Player player in players)
+                foreach(Player player in spartanCompany.activeMembers)
                 {
                     //build the query
                     var query = new GetMatches()
@@ -103,36 +93,17 @@ namespace MoochKick
                     {
                         //Console.WriteLine("Halo API call failed! GT: {0}", player.gamertag);
                         //Console.WriteLine(e);
-                        playersToRemove.Add(player);       //can't just remove, or foreach will die up above
+                        // playersToRemove.Add(player);       //can't just remove, or foreach will die up above
                     }
                 }
             } //end session
 
-            //Prune players that had a call failure occur.
-            foreach (Player badplayer in playersToRemove)
-            {
-                players.Remove(badplayer);
-            }
+            spartanCompany.PopulateInactiveMembers(daysToInactive);
 
-
-            int i = 0;
-            foreach (Player player in players)
-            {
-                if(!player.isActive(daysToInactive))
-                {
-                    if(player.lastActiveDate == DateTime.MinValue)      //TODO: if player class changes, this hack needs to swap
-                    {
-                        Console.WriteLine("{0} does not seem to have an Arena or Warzone game on record and is probably inactive.", player.gamertag);
-                    }
-                    else
-                    {
-                        Console.WriteLine("{0} has not played a game since {1} and is inactive.", player.gamertag, player.lastActiveDate.ToShortDateString());
-                    }
-
-                    i++;
-                }
-            }
-            Console.WriteLine("Scan complete - found {0} inactive players of {1} valid members", i, players.Count);
+            //Console.WriteLine("Here are active members");
+            //spartanCompany.PrintActiveMembers();
+            Console.WriteLine("Here are {0} inactive members", spartanCompany.inactiveMembers.Count());
+            spartanCompany.PrintInactiveMemebrs();
 
         }
         
