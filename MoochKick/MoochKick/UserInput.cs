@@ -42,6 +42,7 @@ namespace MoochKick
         {
             Console.WriteLine("Enter the Minimum Number of Games to Play: ");
             _minGamesToPlay = Convert.ToInt32(Console.ReadLine());
+            //TODO - Don't let player add more than 25 until a refactor
         }
 
         private void AskDaysToInactivityThreshold()

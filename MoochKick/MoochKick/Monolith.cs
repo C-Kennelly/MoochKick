@@ -20,7 +20,7 @@ namespace MoochKick
         {
             //Collect info
             //UserInput input = new UserInput();
-            UserInput input= new UserInput("The Cartographers", 1, 14);
+            UserInput input= new UserInput("The Cartographers", 3, 14);
             Console.WriteLine("Paste developer key:");
             string devKey = Console.ReadLine();
 

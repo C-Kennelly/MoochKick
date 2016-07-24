@@ -62,7 +62,7 @@ namespace MoochKick
                 {
                     //build the query
                     var query = new GetMatches()
-                    .Take(input._minGamesToPlay)
+                    //.Take(input._minGamesToPlay)
                     .InGameModes(input.activeGameModes)
                     .ForPlayer(player.gamertag);
 
@@ -72,9 +72,26 @@ namespace MoochKick
                         var matchSet = await session.Query(query);
 
                         //set last activedate for each player
+                        Stack<DateTime> reversalStack = new Stack<DateTime>(25);
+                        
                         foreach(var result in matchSet.Results)
                         {
-                            player.lastActiveDate = result.MatchCompletedDate.ISO8601Date;
+                            
+                            reversalStack.Push(result.MatchCompletedDate.ISO8601Date);
+                        }
+
+                        //TODO Cleanup
+                        int count = reversalStack.Count;
+                        //int counter = 0;
+                        for(int i = 0; i < count; i++)
+                        {
+                            //counter++;
+                            //DateTime temp = reversalStack.Pop();
+                            //player.recentGameDates.Push(temp);
+                            player.recentGameDates.Push(reversalStack.Pop());
+
+                            //Console.WriteLine("Result {0}: Date is {1}", counter, temp.ToShortDateString());
+
                         }
                     }
                     //if the call fails, the player is invalid and must be removed... permanently...
@@ -87,14 +104,14 @@ namespace MoochKick
                 }
             } //end session
 
-            UpdateMemberActivityLists(input._daysToInactive);
+            UpdateMemberActivityLists(input._daysToInactive, input._minGamesToPlay);
         }
 
-        private void UpdateMemberActivityLists(int inactivityThreshold)
+        private void UpdateMemberActivityLists(int inactivityThreshold, int minNumberofGames)
         {
             foreach (Player player in activeMembers)
             {
-                if (!player.isActive(inactivityThreshold))
+                if (!player.isActive(inactivityThreshold, minNumberofGames))
                 {
                     inactiveMembers.Add(player);
                 }
