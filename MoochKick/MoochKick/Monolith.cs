@@ -19,21 +19,15 @@ namespace MoochKick
         static void Main(string[] args)
         {
             //Collect info
-            Console.WriteLine("Enter Spartan Company Name: ");
-            string spartanCompanyName = Console.ReadLine();
+            //UserInput input = new UserInput();
+            UserInput input= new UserInput("The Cartographers", 1, 14);
             Console.WriteLine("Paste developer key:");
             string devKey = Console.ReadLine();
 
             //Do calculations
-            SpartanCompany userCompany = new SpartanCompany(spartanCompanyName);
+            SpartanCompany userCompany = new SpartanCompany(input._spartanCompanyName);
 
-            int minGamesToPlay = 1;
-            int daysToInactive = 14;
-            List<Enumeration.GameMode> activeGameModes = new List<Enumeration.GameMode>();
-                activeGameModes.Add(Enumeration.GameMode.Arena);
-                activeGameModes.Add(Enumeration.GameMode.Warzone);
-
-            userCompany.SetLastActiveDates(minGamesToPlay,daysToInactive, activeGameModes, devKey).Wait();
+            userCompany.SetLastActiveDates(input, devKey).Wait();
 
             //print results
             Console.WriteLine("Here are active members inside Main");

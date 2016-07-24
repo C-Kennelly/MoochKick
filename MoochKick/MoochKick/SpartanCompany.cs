@@ -28,7 +28,7 @@ namespace MoochKick
             inactiveMembers = new List<Player>();
         }
 
-        public async Task SetLastActiveDates(int minGamesToPlay, int daysToInactive, List<Enumeration.GameMode> activeGameModes, string devKey)
+        public async Task SetLastActiveDates(UserInput input, string devKey)
         {
             //setup product
             var developerAccessProduct = new Product
@@ -62,8 +62,8 @@ namespace MoochKick
                 {
                     //build the query
                     var query = new GetMatches()
-                    .Take(minGamesToPlay)
-                    .InGameModes(activeGameModes)
+                    .Take(input._minGamesToPlay)
+                    .InGameModes(input.activeGameModes)
                     .ForPlayer(player.gamertag);
 
                     //run the query
@@ -87,7 +87,7 @@ namespace MoochKick
                 }
             } //end session
 
-            UpdateMemberActivityLists(daysToInactive);
+            UpdateMemberActivityLists(input._daysToInactive);
         }
 
         private void UpdateMemberActivityLists(int inactivityThreshold)
