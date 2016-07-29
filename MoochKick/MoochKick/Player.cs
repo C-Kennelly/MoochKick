@@ -32,11 +32,12 @@ namespace MoochKick
         {
             DateTime temp = DateTime.MinValue;
 
+            int playersTotalGames = recentGameDates.Count;
             //can we get rid of sentinel value?
             // what happens when there are less than 25 recent games?
             //what happens if min number of game is passed?
 
-            for(int i = 0; i < minimumNumberofGames; i++)
+            for(int i = 0; i < minimumNumberofGames && i < playersTotalGames; i++)
             {
                 temp = recentGameDates.Pop();
                 //Console.WriteLine("Player {0} popped game date of {1}", gamertag, temp.ToShortDateString());

@@ -71,43 +71,55 @@ namespace MoochKick
                     {
                         var matchSet = await session.Query(query);
 
-                        //set last activedate for each player
-                        Stack<DateTime> reversalStack = new Stack<DateTime>(25);
-                        
-                        foreach(var result in matchSet.Results)
+                        if(matchSet.Count < 1)
                         {
-                            
-                            reversalStack.Push(result.MatchCompletedDate.ISO8601Date);
+                            inactiveMembers.Add(player);
                         }
-
-                        //TODO Cleanup
-                        int count = reversalStack.Count;
-                        //int counter = 0;
-                        for(int i = 0; i < count; i++)
+                        else
                         {
-                            //counter++;
-                            //DateTime temp = reversalStack.Pop();
-                            //player.recentGameDates.Push(temp);
-                            player.recentGameDates.Push(reversalStack.Pop());
+                            //set last activedate for each player
+                            Stack<DateTime> reversalStack = new Stack<DateTime>(25);
 
-                            //Console.WriteLine("Result {0}: Date is {1}", counter, temp.ToShortDateString());
+                            foreach(var result in matchSet.Results)
+                            {
 
+                                reversalStack.Push(result.MatchCompletedDate.ISO8601Date);
+                            }
+
+                            //TODO Cleanup
+                            int count = reversalStack.Count;
+                            //Console.WriteLine("Count is {0}", count);
+                            //int counter = 0;
+                            for(int i = 0; i < count; i++)
+                            {
+                                //counter++;
+                                //DateTime temp = reversalStack.Pop();
+                                //player.recentGameDates.Push(temp);
+                                player.recentGameDates.Push(reversalStack.Pop());
+
+                                //Console.WriteLine("Result {0}: Date is {1}", counter, temp.ToShortDateString());
+
+                            }
                         }
                     }
                     //if the call fails, the player is invalid and must be removed... permanently...
+                    //TODO - now handling 0 match case up above... this is no longer a blanket case and could be handled differently (players to retry? Unknown players?)
                     catch(HaloSharp.Exception.HaloApiException e)
                     {
                         //Console.WriteLine("Halo API call failed! GT: {0}", player.gamertag);
                         //Console.WriteLine(e);
-                        //playersToRemove.Add(player);       //can't just remove, or foreach will die up above
+                        inactiveMembers.Add(player);       //can't just remove from activeMembers, or foreach will die up above
                     }
                 }
-            } //end session
 
-            UpdateMemberActivityLists(input._daysToInactive, input._minGamesToPlay);
+                foreach (Player player in inactiveMembers)
+                {
+                    activeMembers.Remove(player);  //clean out the no result players we found last time.
+                }
+            } //end session
         }
 
-        private void UpdateMemberActivityLists(int inactivityThreshold, int minNumberofGames)
+        public void UpdateMemberActivityLists(int inactivityThreshold, int minNumberofGames)
         {
             foreach (Player player in activeMembers)
             {

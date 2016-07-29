@@ -19,8 +19,8 @@ namespace MoochKick
         static void Main(string[] args)
         {
             //Collect info
-            //UserInput input = new UserInput();
-            UserInput input= new UserInput("The Cartographers", 3, 14);
+            UserInput input = new UserInput();
+            //UserInput input= new UserInput("The Cartographers", 3, 14);
             Console.WriteLine("Paste developer key:");
             string devKey = Console.ReadLine();
 
@@ -28,6 +28,7 @@ namespace MoochKick
             SpartanCompany userCompany = new SpartanCompany(input._spartanCompanyName);
 
             userCompany.SetLastActiveDates(input, devKey).Wait();
+            userCompany.UpdateMemberActivityLists(input._daysToInactive, input._minGamesToPlay);
 
             //print results
             Console.WriteLine("Here are active members inside Main");
