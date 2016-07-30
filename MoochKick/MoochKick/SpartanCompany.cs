@@ -17,10 +17,13 @@ namespace MoochKick
     class SpartanCompany
     {
         public string name { get; set; }
-        //public string leader { get; set; }
         public List<Player> activeMembers;
         public List<Player> inactiveMembers;
 
+        /// <summary>
+        /// Constructor - Creates a Spartan Company object and scrapes HaloWaypoint.com to populate the activeMembers list.
+        /// </summary>
+        /// <param name="spartanCompanyName"></param>
         public SpartanCompany(string spartanCompanyName)
         {
             name = spartanCompanyName;
@@ -28,7 +31,13 @@ namespace MoochKick
             inactiveMembers = new List<Player>();
         }
 
-        public async Task SetLastActiveDates(UserInput input, string devKey)
+        /// <summary>
+        /// Query the Halo 5 API and populate all players' recentGames stack in this company's activeMembers.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="devKey"></param>
+        /// <returns></returns>
+        public async Task PopulateActiveMemberRecentGames(UserInput input, string devKey)
         {
             //setup product
             var developerAccessProduct = new Product
@@ -51,20 +60,16 @@ namespace MoochKick
 
             //create client, start session
             var client = new HaloClient(developerAccessProduct, cacheSettings);
+
             using(var session = client.StartSession())
             {
-                /*
-                Iterate through each gamertag in the list, querying the most recent match, 
-                and reporting inactivity if it's out of the the range defined at the top
-                top of the method.
-                */
-                foreach(Player player in this.activeMembers)
+                foreach(Player player in activeMembers)
                 {
                     //build the query
                     var query = new GetMatches()
-                    //.Take(input._minGamesToPlay)
                     .InGameModes(input.activeGameModes)
                     .ForPlayer(player.gamertag);
+                    //.Take(input._minGamesToPlay)
 
                     //run the query
                     try
@@ -75,50 +80,40 @@ namespace MoochKick
                         {
                             inactiveMembers.Add(player);
                         }
-                        else
-                        {
-                            //set last activedate for each player
+                        else  //populate each player's recent games
+                        {                 
                             Stack<DateTime> reversalStack = new Stack<DateTime>(25);
 
                             foreach(var result in matchSet.Results)
                             {
-
                                 reversalStack.Push(result.MatchCompletedDate.ISO8601Date);
                             }
-
-                            //TODO Cleanup
-                            int count = reversalStack.Count;
-                            //Console.WriteLine("Count is {0}", count);
-                            //int counter = 0;
-                            for(int i = 0; i < count; i++)
+                            
+                            while(reversalStack.Count > 0)
                             {
-                                //counter++;
-                                //DateTime temp = reversalStack.Pop();
-                                //player.recentGameDates.Push(temp);
                                 player.recentGameDates.Push(reversalStack.Pop());
-
-                                //Console.WriteLine("Result {0}: Date is {1}", counter, temp.ToShortDateString());
-
                             }
                         }
                     }
-                    //if the call fails, the player is invalid and must be removed... permanently...
-                    //TODO - now handling 0 match case up above... this is no longer a blanket case and could be handled differently (players to retry? Unknown players?)
                     catch(HaloSharp.Exception.HaloApiException e)
                     {
-                        //Console.WriteLine("Halo API call failed! GT: {0}", player.gamertag);
-                        //Console.WriteLine(e);
-                        inactiveMembers.Add(player);       //can't just remove from activeMembers, or foreach will die up above
+                        //Call failed, assuming player is inactive.
+                        inactiveMembers.Add(player);
                     }
                 }
 
                 foreach (Player player in inactiveMembers)
                 {
-                    activeMembers.Remove(player);  //clean out the no result players we found last time.
+                    activeMembers.Remove(player);
                 }
             } //end session
         }
 
+        /// <summary>
+        /// Moves players from activeMembers to inactiveMembers based on the contents of their RecentGames stack.
+        /// </summary>
+        /// <param name="inactivityThreshold"></param>
+        /// <param name="minNumberofGames"></param>
         public void UpdateMemberActivityLists(int inactivityThreshold, int minNumberofGames)
         {
             foreach (Player player in activeMembers)
@@ -135,6 +130,9 @@ namespace MoochKick
             }
         }
 
+        /// <summary>
+        /// Prints all members of activeMembers.
+        /// </summary>
         public void PrintActiveMembers()
         {
             foreach (Player player in activeMembers)
@@ -143,6 +141,9 @@ namespace MoochKick
             }
         }
 
+        /// <summary>
+        /// Prints all members of inactiveMemebers.
+        /// </summary>
         public void PrintInactiveMemebrs()
         {
             foreach(Player player in inactiveMembers)
@@ -151,6 +152,11 @@ namespace MoochKick
             }
         }
 
+        /// <summary>
+        /// Converts a list of gamertags in string format to a list of Player objects.
+        /// </summary>
+        /// <param name="gamertagList"></param>
+        /// <returns></returns>
         private List<Player> ConvertTagsToPlayers(List<string> gamertagList)
         {
             List<Player> result = new List<Player>(gamertagList.Count());

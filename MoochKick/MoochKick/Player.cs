@@ -12,7 +12,6 @@ namespace MoochKick
     class Player
     {
         public string gamertag { get; set; }
-        public DateTime lastActiveDate { get; set; }
         public Stack<DateTime> recentGameDates;
 
 
