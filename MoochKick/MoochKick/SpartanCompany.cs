@@ -42,7 +42,7 @@ namespace MoochKick
             //setup product
             var developerAccessProduct = new Product
             {
-                SubscriptionKey = devKey,               //Key taken from command line
+                SubscriptionKey = devKey,               //Key taken from main
                 RateLimit = new RateLimit
                 {
                     RequestCount = 10,
@@ -66,6 +66,7 @@ namespace MoochKick
                 TalkingHead talkingHead = new TalkingHead();
                 int counter = 0;
 
+                Console.WriteLine("Establishing contact with UNSC Infinity...");
                 foreach(Player player in activeMembers)
                 {
                     //build the query

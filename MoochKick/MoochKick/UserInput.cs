@@ -7,6 +7,7 @@ using HaloSharp.Model;
 
 namespace MoochKick
 {
+    using Quartermaster;
     /// <summary>
     /// Takes user input.  Asks questions upon object instatiation.
     /// </summary>
@@ -22,7 +23,10 @@ namespace MoochKick
         /// </summary>
         public UserInput()
         {
-            AskCompanyName();
+            FindCompanyName();
+            Console.WriteLine();
+            Console.WriteLine("MoochKick defines an inactive player as someone who hasn't played at least X games in Y days.");
+            Console.WriteLine("For instance, we might call a player inactive who hasn't played at least 3 games in 21 days.");
             AskMinGamesToPlay();
             AskDaysToInactivityThreshold();
             AskGameModes(); 
@@ -43,12 +47,53 @@ namespace MoochKick
         }
 
         /// <summary>
-        /// Asks user to enter a Spartan Company name.
+        /// Asks user to enter either a Spartan Company name or a gamertag.
+        /// Checks a Spartan Company name first.
         /// </summary>
-        private void AskCompanyName()
+        private void FindCompanyName()
         {
-            Console.WriteLine("Enter Spartan Company Name: ");
-            _spartanCompanyName = Console.ReadLine();
+            string response = "";
+            string name = "";
+            Console.WriteLine("Start by entering a Spartan Company Name");
+
+            while(_spartanCompanyName == null)
+            {
+                Console.Write("\t");
+                response = Console.ReadLine();
+                name = CheckName(response);
+
+                if(name != "")
+                {
+                    _spartanCompanyName = name;
+                }
+                else
+                {
+                    Console.WriteLine("Couldn't find a valid Spartan Company with the name '{0} on HaloWaypoint.com.", response);
+                    Console.WriteLine("Please re-enter the Spartan Company name.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Substitute method until Quartermaster.Exists() becomes a thing
+        /// </summary>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        private string CheckName(string response)
+        {
+            string name;
+            if(Quartermaster.GetGamertagsForCompany(response).Count > 1)
+            {
+                name = response;
+            }
+            else
+            {
+                name = "";
+                //Quartermaster is bugged - returning "/nSpartanCompanies      ....."
+                //name = Quartermaster.GetSpartanCompanyFromGamertag(response);
+            }
+
+            return name;
         }
 
         /// <summary>
@@ -56,7 +101,8 @@ namespace MoochKick
         /// </summary>
         private void AskMinGamesToPlay()
         {
-            Console.WriteLine("Enter the Minimum Number of Games to Play: ");
+            Console.WriteLine('\t' + "How many games would you like to use?");
+            Console.Write('\t');
             _minGamesToPlay = Convert.ToInt32(Console.ReadLine());
             //TODO - Don't let player add more than 25 until a refactor
         }
@@ -66,7 +112,8 @@ namespace MoochKick
         /// </summary>
         private void AskDaysToInactivityThreshold()
         {
-            Console.WriteLine("Enter the Days To Inactivity Thresholds: ");
+            Console.WriteLine("\tHow many days would you like to use?");
+            Console.Write('\t');
             _daysToInactive = Convert.ToInt32(Console.ReadLine());
         }
 
@@ -76,7 +123,9 @@ namespace MoochKick
         /// </summary>
         private void AskGameModes()
         {
-            Console.WriteLine("Setting game modes to Arena and Warzone");
+            Console.WriteLine();
+            Console.WriteLine("Game modes set to Arena and Warzone.");
+            Console.WriteLine();
             activeGameModes = new List<Enumeration.GameMode>();
                 activeGameModes.Add(Enumeration.GameMode.Arena);
                 activeGameModes.Add(Enumeration.GameMode.Warzone);

@@ -28,12 +28,12 @@ namespace MoochKick
             {
                 stopBelievin = true;
                 RunMoochKickSession(devKey);
-                Console.WriteLine("Run another session? (y/N)");
+                Console.WriteLine("Clear screen and run another session? (y/N)");
 
                 if(Console.ReadLine().ToLower().Contains("y"))
                 {
                     stopBelievin = false;
-                    Console.WriteLine();
+                    Console.Clear();
                 }
             }
         }

@@ -15,6 +15,10 @@ namespace MoochKick
             BuildLines();
         }
 
+        /// <summary>
+        /// Returns the top line from cleverLines.  Builds new ones if it runs out.
+        /// </summary>
+        /// <returns></returns>
         public string GetNextLine()
         {
             if(cleverLines.Count < 1)
@@ -25,11 +29,9 @@ namespace MoochKick
             return cleverLines.Pop();
         }
 
-        public static string GetEndLine()
-        {
-            return "Spartan Company data located!";
-        }
-
+        /// <summary>
+        /// populates this.cleverLines with preset lines in random order.
+        /// </summary>
         private void BuildLines()
         {
             List<string> lines = new List<string>(10);
@@ -41,7 +43,7 @@ namespace MoochKick
             lines.Add("Filtering data sectors...");//40
             lines.Add("Having drinks with Roland...");//50
             lines.Add("Discovered War Games records.  Scanning...");//60
-            lines.Add("Encountered TASHI class sentinel AI.  Posting distraction thread on Waypoint...");//70
+            lines.Add("Encountered TASHI class AI.  Posting distraction thread on Waypoint...");//70
             lines.Add("Using Sarah Palmer's workout videos to destroy the enemy core...");//80
             lines.Add("Scanning SECTOR.BARVOPICS.DAT...");//90
 
@@ -56,6 +58,11 @@ namespace MoochKick
 
         private static Random rng = new Random();
 
+        /// <summary>
+        /// Shuffles a list.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="list"></param>
         private static void Shuffle<T>(IList<T> list)
         {
             int n = list.Count;
