@@ -68,7 +68,7 @@ namespace MoochKick
                 }
                 else
                 {
-                    Console.WriteLine("Couldn't find a valid Spartan Company with the name '{0} on HaloWaypoint.com.", response);
+                    Console.WriteLine("Couldn't find a valid Spartan Company with the name '{0}' on HaloWaypoint.com.", response);
                     Console.WriteLine("Please re-enter the Spartan Company name.");
                 }
             }
@@ -101,9 +101,21 @@ namespace MoochKick
         /// </summary>
         private void AskMinGamesToPlay()
         {
-            Console.WriteLine('\t' + "How many games would you like to use?");
-            Console.Write('\t');
-            _minGamesToPlay = Convert.ToInt32(Console.ReadLine());
+            do
+            {
+                Console.WriteLine('\t' + "How many games would you like to use?  (Max of 25)");
+                Console.Write('\t');
+                try
+                {
+                    _minGamesToPlay = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    _minGamesToPlay = -1;
+                }
+            } while(!ValidateInt(_minGamesToPlay, 1, 25));
+
+
             //TODO - Don't let player add more than 25 until a refactor
         }
 
@@ -112,9 +124,19 @@ namespace MoochKick
         /// </summary>
         private void AskDaysToInactivityThreshold()
         {
-            Console.WriteLine("\tHow many days would you like to use?");
-            Console.Write('\t');
-            _daysToInactive = Convert.ToInt32(Console.ReadLine());
+            do
+            {
+                Console.WriteLine("\tHow many days would you like to use? (Max of 1000)");
+                Console.Write('\t');
+                try
+                {
+                    _daysToInactive = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    _daysToInactive = -1;
+                }
+            } while(!ValidateInt(_daysToInactive, 1, 1000));
         }
 
         /// <summary>
@@ -129,6 +151,25 @@ namespace MoochKick
             activeGameModes = new List<Enumeration.GameMode>();
                 activeGameModes.Add(Enumeration.GameMode.Arena);
                 activeGameModes.Add(Enumeration.GameMode.Warzone);
+        }
+
+        /// <summary>
+        /// Returns true if int is greater than or equal to Min, AND less or equal to Max.  Returns false and prints error if not.
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        private bool ValidateInt(int input, int min, int max)
+        {
+            if(input >= min && input <= max)
+            {
+                return true;
+            }
+
+            Console.WriteLine('\t' + "Sorry, your response must be a number between {0} and {1}", min, max);
+            return false;
+
         }
     }
 }
