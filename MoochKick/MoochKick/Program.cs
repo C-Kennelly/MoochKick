@@ -49,6 +49,7 @@ namespace MoochKick
             userCompany.UpdateMemberActivityLists(input._daysToInactive, input._minGamesToPlay);
 
             //print results
+            Console.WriteLine();
             Console.WriteLine("Found {0} of {1} members who have not played at least {2} games in {3} days.", 
                 userCompany.inactiveMembers.Count, (userCompany.activeMembers.Count + userCompany.inactiveMembers.Count), 
                 input._minGamesToPlay, input._daysToInactive);

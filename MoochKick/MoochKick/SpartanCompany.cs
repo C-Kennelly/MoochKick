@@ -63,6 +63,9 @@ namespace MoochKick
 
             using(var session = client.StartSession())
             {
+                TalkingHead talkingHead = new TalkingHead();
+                int counter = 0;
+
                 foreach(Player player in activeMembers)
                 {
                     //build the query
@@ -74,6 +77,17 @@ namespace MoochKick
                     //run the query
                     try
                     {
+                        if(counter %10 == 0)
+                        {
+                            Console.WriteLine();
+                            Console.Write(talkingHead.GetNextLine());
+                        }
+                        else
+                        {
+                            Console.Write("."); 
+                        }
+                        counter++;
+
                         var matchSet = await session.Query(query);
 
                         if(matchSet.Count < 1)
@@ -107,6 +121,7 @@ namespace MoochKick
                     activeMembers.Remove(player);
                 }
             } //end session
+            Console.WriteLine("\nSpartan Company data found!");
         }
 
         /// <summary>
