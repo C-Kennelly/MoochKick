@@ -19,7 +19,7 @@ namespace MoochKick
         static void Main(string[] args)
         {
             bool stopBelievin = false;
-            string devKey = "";  //Paste your development key here before building
+            string devKey = "";  //Paste your development key here before building, and comment out the following two lines
                 Console.WriteLine("Paste your dev key to get started.");
                 devKey = Console.ReadLine();
 
@@ -45,14 +45,18 @@ namespace MoochKick
 
             //Do calculations
             SpartanCompany userCompany = new SpartanCompany(input._spartanCompanyName);
+
             userCompany.PopulateActiveMemberRecentGames(input, devKey).Wait();
+
             userCompany.UpdateMemberActivityLists(input._daysToInactive, input._minGamesToPlay);
 
             //print results
             Console.WriteLine();
-            Console.WriteLine("Found {0} of {1} members who have not played at least {2} games in {3} days.", 
-                userCompany.inactiveMembers.Count, (userCompany.activeMembers.Count + userCompany.inactiveMembers.Count), 
+            Console.WriteLine("Found {0} of {1} members who have not played at least {2} games in the last {3} days.", 
+                userCompany.inactiveMembers.Count, 
+                (userCompany.activeMembers.Count + userCompany.inactiveMembers.Count), 
                 input._minGamesToPlay, input._daysToInactive);
+
             userCompany.PrintInactiveMemebrs();
         }
 
