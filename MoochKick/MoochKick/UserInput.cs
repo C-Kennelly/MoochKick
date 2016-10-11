@@ -145,12 +145,40 @@ namespace MoochKick
         /// </summary>
         private void AskGameModes()
         {
-            Console.WriteLine();
-            Console.WriteLine("Game modes set to Arena and Warzone.");
-            Console.WriteLine();
+            int userChoice;
+            do
+            {
+                Console.WriteLine();
+                Console.WriteLine("\tSelect which playlists to include:");
+                Console.WriteLine("\t\t1) BOTH Arena and Warzone");
+                Console.WriteLine("\t\t2) ONLY Arena");
+                Console.WriteLine("\t\t3) ONLY Warzone");
+                Console.Write("\t");
+                try
+                {
+                    userChoice = Convert.ToInt32(Console.ReadLine());
+                }
+                catch
+                {
+                    userChoice = -1;
+                }
+            } while(!ValidateInt(userChoice, 1, 3));
+
             activeGameModes = new List<Enumeration.GameMode>();
-                activeGameModes.Add(Enumeration.GameMode.Arena);
-                activeGameModes.Add(Enumeration.GameMode.Warzone);
+            switch(userChoice)
+            {
+                case 1:
+                    activeGameModes.Add(Enumeration.GameMode.Arena);
+                    activeGameModes.Add(Enumeration.GameMode.Warzone);
+                    break;
+                case 2:
+                    activeGameModes.Add(Enumeration.GameMode.Arena);
+                    break;
+                default:
+                    activeGameModes.Add(Enumeration.GameMode.Warzone);
+                    break;
+            }
+                
         }
 
         /// <summary>

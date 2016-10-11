@@ -18,21 +18,21 @@ namespace MoochKick
       
         static void Main(string[] args)
         {
-            bool stopBelievin = false;
+            bool runAnotherSession = true;
             string devKey = "";  //Paste your development key here before building, and comment out the following two lines
-                Console.WriteLine("Paste your dev key to get started.");
-                devKey = Console.ReadLine();
+                //Console.WriteLine("Paste your dev key to get started.");
+                //devKey = Console.ReadLine();
 
             Console.WriteLine("Welcome to MoochKick!  Let's find some inactive players.");
-            while(!stopBelievin)
+            while(runAnotherSession)
             {
-                stopBelievin = true;
+                runAnotherSession = false;
                 RunMoochKickSession(devKey);
                 Console.WriteLine("Clear screen and run another session? (y/N)");
 
                 if(Console.ReadLine().ToLower().Contains("y"))
                 {
-                    stopBelievin = false;
+                    runAnotherSession = true;
                     Console.Clear();
                 }
             }
