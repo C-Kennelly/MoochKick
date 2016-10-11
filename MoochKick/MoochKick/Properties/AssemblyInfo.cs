@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MoochKick")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Finds inactive players using the Halo 5 API.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Triangle Eyes")]
 [assembly: AssemblyProduct("MoochKick")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
