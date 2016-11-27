@@ -56,13 +56,16 @@ namespace MoochKick
             //print results
             Console.WriteLine();
             List<string> output = new List<string>(userCompany.inactiveMembers.Count + 1);
+
             string header = ("Found " +
                                 userCompany.inactiveMembers.Count +
                                 " of " +
                                 (userCompany.activeMembers.Count + userCompany.inactiveMembers.Count) +
                                 " members who have not played at least " +
                                 input._minGamesToPlay +
-                                " games in the last " +
+                                " games in " +
+                                input.printableGameModes +
+                                " in the last " +
                                 input._daysToInactive +
                                 " days.");
             output.Add(header);
