@@ -17,6 +17,7 @@ namespace MoochKick
         public int _minGamesToPlay { get; set; }
         public int _daysToInactive { get; set; }
         public List<Enumeration.GameMode> activeGameModes;
+        public string printableGameModes = "";
 
         /// <summary>
         /// Default constructor - Asks questions
@@ -44,6 +45,23 @@ namespace MoochKick
             _minGamesToPlay = minGamesToPlay;
             _daysToInactive = DaystoInactive;
             AskGameModes();
+        }
+
+        /// <summary>
+        /// Adds the game modes specified in "AskGameMode() to a printable version, since the Halo Sharp enumeration is not enumerable for strings.
+        /// </summary>
+        /// <returns></returns>
+        public void AddPrintableGameMode(string s)
+        {
+            if(printableGameModes == "") //first one
+            {
+                printableGameModes = s;
+            }
+            else //additional
+            {
+                printableGameModes += (" and " + s);
+            }
+
         }
 
         /// <summary>
@@ -169,13 +187,18 @@ namespace MoochKick
             {
                 case 1:
                     activeGameModes.Add(Enumeration.GameMode.Arena);
+                    this.AddPrintableGameMode("Arena");
+
                     activeGameModes.Add(Enumeration.GameMode.Warzone);
+                    this.AddPrintableGameMode("Warzone");
                     break;
                 case 2:
                     activeGameModes.Add(Enumeration.GameMode.Arena);
+                    this.AddPrintableGameMode("Arena");
                     break;
                 default:
                     activeGameModes.Add(Enumeration.GameMode.Warzone);
+                    this.AddPrintableGameMode("Warzone");
                     break;
             }
                 
