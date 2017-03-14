@@ -22,10 +22,13 @@ namespace MoochKick
         [STAThread]
         static void Main(string[] args)
         {
+            //Paste your development key here before building, and comment out the following three lines.
+            //string devKey = "";  
+            Console.WriteLine("Paste your dev key to get started.");
+            Console.WriteLine("This can be added to the first line of Program.Main() if you will be building multiple times.");
+            string devKey = Console.ReadLine();
+
             bool runAnotherSession = true;
-            string devKey = "";  //Paste your development key here before building, and comment out the following two lines
-                //Console.WriteLine("Paste your dev key to get started.");
-                //devKey = Console.ReadLine();
 
             Console.WriteLine("Welcome to MoochKick!  Let's find some inactive players.");
             while(runAnotherSession)

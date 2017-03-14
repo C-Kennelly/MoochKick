@@ -110,9 +110,10 @@ namespace MoochKick
                             }
                         }
                     }
-                    catch(HaloSharp.Exception.HaloApiException e)
+                    catch(HaloSharp.Exception.HaloApiException)
                     {
-                        //Call failed, assuming player is inactive.
+                        //Call failed, assume player is inactive.
+                        //Console.WriteLine("DEBUG: Call failure on player {0}", player.gamertag);
                         inactiveMembers.Add(player);
                     }
                 }
