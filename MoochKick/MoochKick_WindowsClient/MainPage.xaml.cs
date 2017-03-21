@@ -22,6 +22,8 @@ namespace MoochKick_WindowsClient
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        List<string> result = new List<string>(100);
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -29,15 +31,25 @@ namespace MoochKick_WindowsClient
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+
+            string company = "Hah!"; //companyTextBox1.Text;
+
             //Call API here
 
+
+            result.Add(company);
+            result.Add("Thing!!");
+
+            listView.ItemsSource = result;
+
+            
 
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             //Clear
-            textbox1.Text = "";
+            listView.Items.Clear();
             companyTextBox1.Text = "";
         }
 

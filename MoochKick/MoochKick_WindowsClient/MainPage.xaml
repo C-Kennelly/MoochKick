@@ -10,8 +10,8 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Button Content="MoochFind!" HorizontalAlignment="Left" Margin="83,392,0,0" VerticalAlignment="Top" Click="Button_Click"/>
         <Button Content="Clear" HorizontalAlignment="Left" Margin="204,392,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
-        <TextBlock Name="textbox1" HorizontalAlignment="Left" Margin="83,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="261" Width="168" />
         <TextBox Name="companyTextBox1" HorizontalAlignment="Left" Margin="54,449,0,0" TextWrapping="Wrap" Text="[Enter Spartan Company Name]" VerticalAlignment="Top" Width="242"/>
+        <ListView Name="listView" HorizontalAlignment="Left" Height="251" Margin="54,89,0,0" VerticalAlignment="Top" Width="242"/>
 
     </Grid>
 </Page>
