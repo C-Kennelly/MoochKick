@@ -1,0 +1,17 @@
+﻿<Page
+    x:Class="MoochKick_WindowsClient.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MoochKick_WindowsClient"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Button Content="MoochFind!" HorizontalAlignment="Left" Margin="83,392,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Button Content="Clear" HorizontalAlignment="Left" Margin="204,392,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
+        <TextBlock Name="textbox1" HorizontalAlignment="Left" Margin="83,83,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="261" Width="168" />
+        <TextBox Name="companyTextBox1" HorizontalAlignment="Left" Margin="54,449,0,0" TextWrapping="Wrap" Text="[Enter Spartan Company Name]" VerticalAlignment="Top" Width="242"/>
+
+    </Grid>
+</Page>
