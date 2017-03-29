@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using MoochKick_WindowsClient.Classes;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -22,7 +23,7 @@ namespace MoochKick_WindowsClient
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        List<string> result = new List<string>(100);
+        List<Player> result = new List<Player>(100);
 
         public MainPage()
         {
