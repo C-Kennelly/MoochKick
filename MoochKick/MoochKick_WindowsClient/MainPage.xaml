@@ -11,7 +11,24 @@
         <Button Content="MoochFind!" HorizontalAlignment="Left" Margin="83,392,0,0" VerticalAlignment="Top" Click="Button_Click"/>
         <Button Content="Clear" HorizontalAlignment="Left" Margin="204,392,0,0" VerticalAlignment="Top" Click="Button_Click_1"/>
         <TextBox Name="companyTextBox1" HorizontalAlignment="Left" Margin="54,449,0,0" TextWrapping="Wrap" Text="[Enter Spartan Company Name]" VerticalAlignment="Top" Width="242"/>
-        <ListView Name="listView" HorizontalAlignment="Left" Height="251" Margin="54,89,0,0" VerticalAlignment="Top" Width="242"/>
+        <ListView Name="playerList" HorizontalAlignment="Stretch" Height="251" Margin="54,89,0,0" VerticalAlignment="Top" Width="Auto">
+        <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding gamertag}" 
+                           Margin="20,0,20,8"
+                           FontSize="12" 
+                           FontStyle="Italic" 
+                           FontWeight="SemiBold"
+                           Foreground="BlueViolet" />
+                        <CheckBox Content="{Binding ActiveStatus}" 
+                                  IsEnabled="False"
+                                  Opacity="0.8" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
 
     </Grid>
 </Page>

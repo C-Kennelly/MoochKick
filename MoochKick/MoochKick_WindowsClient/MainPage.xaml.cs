@@ -23,7 +23,7 @@ namespace MoochKick_WindowsClient
     /// </summary>
     public sealed partial class MainPage : Page
     {
-        List<Player> result = new List<Player>(100);
+        private List<Player> listOfPlayers = new List<Player>(100);
 
         public MainPage()
         {
@@ -36,21 +36,19 @@ namespace MoochKick_WindowsClient
             string company = "Hah!"; //companyTextBox1.Text;
 
             //Call API here
+            listOfPlayers.Add(new Player("Sn1p3r C"));
+            listOfPlayers.Add(new Player("Randy 355"));
+            listOfPlayers.Add(new Player("MythicFritz"));
+            listOfPlayers.Add(new Player("Whos Blaze"));
+            listOfPlayers.Add(new Player("Darkprince909"));
 
-
-            result.Add(company);
-            result.Add("Thing!!");
-
-            listView.ItemsSource = result;
-
-            
-
+            playerList.ItemsSource = listOfPlayers;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             //Clear
-            listView.Items.Clear();
+            listOfPlayers = new List<Player>(100);
             companyTextBox1.Text = "";
         }
 
