@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -24,23 +27,43 @@ namespace MoochKick_WindowsClient
     public sealed partial class MainPage : Page
     {
         private List<Player> listOfPlayers = new List<Player>(100);
+        private const string devKey = "";
 
         public MainPage()
         {
             this.InitializeComponent();
+            
+
+
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
 
-            string company = "Hah!"; //companyTextBox1.Text;
-
             //Call API here
-            listOfPlayers.Add(new Player("Sn1p3r C"));
-            listOfPlayers.Add(new Player("Randy 355"));
-            listOfPlayers.Add(new Player("MythicFritz"));
-            listOfPlayers.Add(new Player("Whos Blaze"));
-            listOfPlayers.Add(new Player("Darkprince909"));
+            //http://ec2-35-167-65-201.us-west-2.compute.amazonaws.com/api/moochers/Creative Force/3/200/[devkey]
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("http://ec2-35-167-65-201.us-west-2.compute.amazonaws.com");
+                client.DefaultRequestHeaders.Accept.Clear();
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+                var response = await client.GetAsync("api/moochers/Creative Force/3/200/" + devKey);
+                
+                if(response.IsSuccessStatusCode)
+                {
+                    listOfPlayers.Add(new Player("Sn1p3r C"));
+                    listOfPlayers.Add(new Player("Randy 355"));
+                    listOfPlayers.Add(new Player("MythicFritz"));
+                    listOfPlayers.Add(new Player("Whos Blaze"));
+                    listOfPlayers.Add(new Player("Darkprince909"));
+                }
+                else
+                {
+                    listOfPlayers.Add(new Player("Failure.  Sad!"));
+                }
+            }
 
             playerList.ItemsSource = listOfPlayers;
         }
