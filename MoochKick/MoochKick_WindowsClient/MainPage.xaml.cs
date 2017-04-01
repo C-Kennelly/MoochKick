@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Json;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -42,26 +43,21 @@ namespace MoochKick_WindowsClient
 
             //Call API here
             //http://ec2-35-167-65-201.us-west-2.compute.amazonaws.com/api/moochers/Creative Force/3/200/[devkey]
-
+            
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri("http://ec2-35-167-65-201.us-west-2.compute.amazonaws.com");
                 client.DefaultRequestHeaders.Accept.Clear();
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
 
-                var response = await client.GetAsync("api/moochers/Creative Force/3/200/" + devKey);
+                var serializer = new DataContractJsonSerializer(typeof(string[]));
+
+                var streamTask = client.GetStreamAsync("api/moochers/Creative Force/3/200/" + devKey);
+                var players = serializer.ReadObject(await streamTask) as string[];
                 
-                if(response.IsSuccessStatusCode)
+                foreach (string gamertag in players)
                 {
-                    listOfPlayers.Add(new Player("Sn1p3r C"));
-                    listOfPlayers.Add(new Player("Randy 355"));
-                    listOfPlayers.Add(new Player("MythicFritz"));
-                    listOfPlayers.Add(new Player("Whos Blaze"));
-                    listOfPlayers.Add(new Player("Darkprince909"));
-                }
-                else
-                {
-                    listOfPlayers.Add(new Player("Failure.  Sad!"));
+                    listOfPlayers.Add(new Player(gamertag));
                 }
             }
 

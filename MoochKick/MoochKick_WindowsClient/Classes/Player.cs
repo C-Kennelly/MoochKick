@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,7 +16,7 @@ namespace MoochKick_WindowsClient.Classes
         public Stack<DateTime> recentGameDates;
         public bool activeStatus;
 
-        //Constructor
+        
         public Player(string username)
         {
             gamertag = username;
