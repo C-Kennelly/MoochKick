@@ -41,6 +41,8 @@ namespace MoochKick_WindowsClient
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
 
+            string company = companyTextBox1.Text;
+
             //Call API here
             //http://ec2-35-167-65-201.us-west-2.compute.amazonaws.com/api/moochers/Creative Force/3/200/[devkey]
             
@@ -52,7 +54,7 @@ namespace MoochKick_WindowsClient
 
                 var serializer = new DataContractJsonSerializer(typeof(string[]));
 
-                var streamTask = client.GetStreamAsync("api/moochers/Creative Force/3/200/" + devKey);
+                var streamTask = client.GetStreamAsync("api/moochers/" + company + "/3/200/" + devKey);
                 var players = serializer.ReadObject(await streamTask) as string[];
                 
                 foreach (string gamertag in players)
